@@ -5,12 +5,16 @@ import (
 	"fmt"
 )
 
-func SaveBin(bytes []byte) {
-	file.WriteFile(bytes, "data.json")
+type Storage struct {
+	DB file.JsonDb
 }
 
-func TakeBin() ([]byte, error) {
-	bytes, err := file.ReadFile("data.json")
+func (stor *Storage) Write(bytes []byte) {
+	stor.DB.Write(bytes)
+}
+
+func (stor *Storage) Read() ([]byte, error) {
+	bytes, err := stor.DB.Read()
 	if err != nil {
 		fmt.Println(err)
 		return nil, err

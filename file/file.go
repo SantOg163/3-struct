@@ -7,19 +7,23 @@ import (
 	"strings"
 )
 
-func ReadFile(name string) ([]byte, error) {
-	data, err := os.ReadFile(name)
+type JsonDb struct {
+	FileName string
+}
+
+func (db JsonDb) Read() ([]byte, error) {
+	data, err := os.ReadFile(db.FileName)
 	if err != nil {
 		return nil, err
 	}
 	return (data), nil
 }
-func WriteFile(content []byte, name string) error {
-	if !strings.Contains(name,".json"){
+func (db JsonDb) Write(content []byte) error {
+	if !strings.Contains(db.FileName, ".json") {
 		fmt.Println("Доступен только json")
 		return errors.New("Доступен только json")
 	}
-	file, err := os.Create(name)
+	file, err := os.Create(db.FileName)
 	if err != nil {
 		return err
 	}

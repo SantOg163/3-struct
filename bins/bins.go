@@ -16,11 +16,18 @@ type Bin struct {
 	CreatedAt time.Time `json:"createdAt"`
 	Name      string    `json:"name"`
 }
-type BinList []Bin
+type BinList struct {
+	Bins    []Bin
+	storage storage.Storage
+}
+type Data interface{
+	Write(bytes []byte)
+	Read() ([]byte, error)
+}
 
 func GetNewId(list *BinList) string {
-	if len(*list) >= 1 {
-		lastElementId := ((*list)[len(*list)-1].Id)
+	if len(list.Bins) >= 1 {
+		lastElementId := list.Bins[len(list.Bins)-1].Id
 
 		lastElementIntId, _ := strconv.Atoi(lastElementId)
 
@@ -47,23 +54,27 @@ func NewBin(id string, name string, private bool) (*Bin, error) {
 	return currentBin, nil
 
 }
-func NewBinList() *BinList {
-	bytes, err := storage.TakeBin()
+func NewBinList(stor storage.Storage) *BinList {
+	bytes, err := stor.Read()
 	if err != nil {
-		return &BinList{}
+		return &BinList{
+			Bins:    []Bin{},
+			storage: stor,
+		}
 	}
 	result := BinList{}
 	err = json.Unmarshal(bytes, &result)
+	result.storage = stor
 	return &result
 }
 
 func (list *BinList) AddBin(bin *Bin) {
-	*list = append((*list), *bin)
+	list.Bins = append(list.Bins, *bin)
 
-	bytes, err := json.Marshal(list)
+	bytes, err := json.Marshal(list.Bins)
 	if err != nil {
 		fmt.Println("Произошла ошибка при переводе в байты")
 		return
 	}
-	storage.SaveBin(bytes)
+	list.storage.Write(bytes)
 }
