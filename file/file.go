@@ -1,8 +1,10 @@
 package file
 
 import (
+	"errors"
 	"fmt"
 	"os"
+	"strings"
 )
 
 func ReadFile(name string) ([]byte, error) {
@@ -13,6 +15,10 @@ func ReadFile(name string) ([]byte, error) {
 	return (data), nil
 }
 func WriteFile(content []byte, name string) error {
+	if !strings.Contains(name,".json"){
+		fmt.Println("Доступен только json")
+		return errors.New("Доступен только json")
+	}
 	file, err := os.Create(name)
 	if err != nil {
 		return err
