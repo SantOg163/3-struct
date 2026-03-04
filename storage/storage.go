@@ -9,6 +9,14 @@ type Storage struct {
 	DB file.JsonDb
 }
 
+func NewStorage(name string) *Storage{
+	return &Storage{
+		DB: file.JsonDb{
+			FileName: name,
+		},
+	}
+}
+
 func (stor *Storage) Write(bytes []byte) {
 	stor.DB.Write(bytes)
 }
