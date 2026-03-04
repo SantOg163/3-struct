@@ -11,16 +11,16 @@ import (
 )
 
 type Bin struct {
-	id        string
-	private   bool
-	createdAt time.Time
-	name      string `json:"login" xml:"test"`
+	Id        string    `json:"id"`
+	Private   bool      `json:"private"`
+	CreatedAt time.Time `json:"createdAt"`
+	Name      string    `json:"name"`
 }
 type BinList []Bin
 
 func GetNewId(list *BinList) string {
 	if len(*list) >= 1 {
-		lastElementId := ((*list)[len(*list)-1].id)
+		lastElementId := ((*list)[len(*list)-1].Id)
 
 		lastElementIntId, _ := strconv.Atoi(lastElementId)
 
@@ -36,10 +36,10 @@ func NewBin(id string, name string, private bool) (*Bin, error) {
 		return nil, errors.New("Empty id or name")
 	}
 	currentBin := &Bin{
-		id:        id,
-		name:      name,
-		private:   private,
-		createdAt: time.Now(),
+		Id:        id,
+		Name:      name,
+		Private:   private,
+		CreatedAt: time.Now(),
 	}
 	field, _ := reflect.TypeOf(currentBin).Elem().FieldByName("name")
 	fmt.Println(string(field.Tag))
