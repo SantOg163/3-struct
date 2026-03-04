@@ -1,7 +1,6 @@
 package bins
 
 import (
-	"demo/struct/storage"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -18,7 +17,7 @@ type Bin struct {
 }
 type BinList struct {
 	Bins    []Bin
-	storage storage.Storage
+	storage Data
 }
 type Data interface{
 	Write(bytes []byte)
@@ -54,7 +53,7 @@ func NewBin(id string, name string, private bool) (*Bin, error) {
 	return currentBin, nil
 
 }
-func NewBinList(stor storage.Storage) *BinList {
+func NewBinList(stor Data) *BinList {
 	bytes, err := stor.Read()
 	if err != nil {
 		return &BinList{
