@@ -1,12 +1,15 @@
 package main
 
 import (
-	"fmt"
 	"demo/struct/bins"
+	"demo/struct/file"
+	"fmt"
 )
 
 func main() {
-	list := bins.BinList{}
+	res, _ := file.ReadFile("test.txt")
+	fmt.Println(res)
+	list := bins.NewBinList()
 	newId := bins.GetNewId(list)
 	bin, err := bins.NewBin(newId, "sam", true)
 	if err != nil {
