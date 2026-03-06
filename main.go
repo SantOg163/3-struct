@@ -1,7 +1,9 @@
 package main
 
 import (
+	"demo/struct/api"
 	"demo/struct/bins"
+	"demo/struct/config"
 	"demo/struct/storage"
 	"fmt"
 )
@@ -14,5 +16,8 @@ func main() {
 	if err != nil {
 		return
 	}
+	conf := config.NewConfig()
+	api := api.NewApi(*conf)
+	fmt.Println(api)
 	fmt.Println(bin)
 }
