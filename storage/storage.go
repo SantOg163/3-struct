@@ -1,6 +1,7 @@
 package storage
 
 import (
+	"demo/struct/api"
 	"demo/struct/file"
 	"fmt"
 )
@@ -9,7 +10,7 @@ type Storage struct {
 	DB file.JsonDb
 }
 
-func NewStorage(name string) *Storage{
+func NewStorage(name string, api api.Api) *Storage {
 	return &Storage{
 		DB: file.JsonDb{
 			FileName: name,

@@ -1,17 +1,26 @@
 package config
 
-import "os"
+import (
+	"os"
+)
 
 type Config struct {
-	Key string
+	MasterKey string
+	AccessKey string
 }
 
 func NewConfig() *Config {
-	key := os.Getenv("KEY")
-	if key == "" {
+	masterKey := os.Getenv("X_Master_Key")
+	if masterKey == "" {
+		panic("Нет ключа шифрования")
+	}
+
+	accessKey := os.Getenv("X_Access_Key")
+	if accessKey == "" {
 		panic("Нет ключа шифрования")
 	}
 	return &Config{
-		Key: key,
+		MasterKey: masterKey,
+		AccessKey: accessKey,
 	}
 }

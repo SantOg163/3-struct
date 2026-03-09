@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"reflect"
 	"strconv"
 	"time"
 )
@@ -47,8 +46,6 @@ func NewBin(id string, name string, private bool) (*Bin, error) {
 		Private:   private,
 		CreatedAt: time.Now(),
 	}
-	field, _ := reflect.TypeOf(currentBin).Elem().FieldByName("name")
-	fmt.Println(string(field.Tag))
 
 	return currentBin, nil
 
